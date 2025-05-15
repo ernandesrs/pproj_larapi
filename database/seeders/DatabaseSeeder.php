@@ -16,7 +16,7 @@ class DatabaseSeeder extends Seeder
     {
         (new RoleAndPermissionSeeder)->run();
 
-        User::factory(10)->create();
+        User::factory(100)->create();
 
         // Create super user
         $super = User::factory()->create([

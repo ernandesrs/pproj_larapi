@@ -16,7 +16,6 @@ class RegisterController extends Controller
     {
         $user = UserService::create($request->validated());
         return response()->json([
-            'success' => $user ? true : false,
             'data' => $user
         ]);
     }

@@ -4,6 +4,7 @@ namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
@@ -48,5 +49,35 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Get all user tokens check
+     * @return HasMany<TokenCheck, User>
+     */
+    public function tokensCheck(): HasMany
+    {
+        return $this->hasMany(TokenCheck::class);
+    }
+
+    /**
+     * Get register verification token
+     * @return TokenCheck|null
+     */
+    public function getRegisterVerificationToken(): TokenCheck|null
+    {
+        return $this->tokensCheck()->where('token_to', \App\Enums\TokenCheckEnum::REGISTER_VERIFICATION)->first();
+    }
+
+    /**
+     * Generate token to account register verification
+     * @return TokenCheck
+     */
+    public function generateTokenToRegisterVerification(): TokenCheck
+    {
+        return $this->tokensCheck()->create([
+            'token_to' => \App\Enums\TokenCheckEnum::REGISTER_VERIFICATION,
+            'token' => \Str::random(60)
+        ]);
     }
 }

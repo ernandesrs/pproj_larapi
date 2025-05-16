@@ -11,14 +11,19 @@ class UserService implements ServiceInterface
     /**
      * Create a new resource
      * @param array $validated
-     * @return ?Model
+     * @return ?User
      */
-    public static function create(array $validated): ?Model
+    public static function create(array $validated): ?User
     {
         $user = User::create($validated);
 
         if ($user) {
-            // Send verification mail
+            $tokenCheck = $user->generateTokenToRegisterVerification();
+
+            \Mail::to($user)->queue(
+                new \App\Mail\RegisterVerificationMail($user, $tokenCheck)
+            );
+
             return $user;
         }
 

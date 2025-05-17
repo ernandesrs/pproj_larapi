@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\UserService;
@@ -15,7 +16,7 @@ class RegisterController extends Controller
     public function store(UserRegisterRequest $request)
     {
         $user = UserService::create($request->validated());
-        return response()->json([
+        return ApiResponse::success([
             'data' => $user
         ]);
     }

@@ -5,11 +5,7 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/test', function () {
-    return response()->json([
-        'success' => true
-    ]);
-});
+Route::get('/test', fn() => \App\Helpers\ApiResponse::success());
 
 Route::group([
     'prefix' => 'auth'

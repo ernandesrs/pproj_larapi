@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
 use Illuminate\Http\Request;
@@ -24,7 +25,7 @@ class LoginController extends Controller
         ], $validated['remember']);
 
         if (!$attemptResponse) {
-            return response(status: 401);
+            return ApiResponse::unauthorized();
         }
 
         $oldTokens = \Auth::user()->tokens()->where('name', $appName)->get();
@@ -32,7 +33,7 @@ class LoginController extends Controller
             $oldTokens->map(fn($token) => $token->delete());
         }
 
-        return response()->json([
+        return ApiResponse::success([
             'auth_token' => \Auth::user()->createToken($appName)->plainTextToken
         ]);
     }

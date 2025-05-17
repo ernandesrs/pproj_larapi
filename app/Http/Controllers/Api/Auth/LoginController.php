@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LoginController extends Controller
@@ -12,9 +13,9 @@ class LoginController extends Controller
     /**
      * Login
      * @param \App\Http\Requests\LoginRequest $request
-     * @return mixed|\Illuminate\Http\JsonResponse
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function login(LoginRequest $request)
+    public function login(LoginRequest $request): JsonResponse
     {
         $appName = $request->header('X-From-AppName');
         $validated = $request->validated();

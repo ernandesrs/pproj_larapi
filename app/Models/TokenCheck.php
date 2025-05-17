@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TokenCheck extends Model
 {
@@ -31,5 +32,14 @@ class TokenCheck extends Model
         return [
             'token_to' => \App\Enums\TokenCheckEnum::class
         ];
+    }
+
+    /**
+     * User
+     * @return BelongsTo<User, TokenCheck>
+     */
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
     }
 }

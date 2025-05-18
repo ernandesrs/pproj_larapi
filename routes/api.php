@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\RegisterController;
+use App\Http\Controllers\Api\Me\MeController;
 use Illuminate\Support\Facades\Route;
 
 Route::group([
@@ -24,6 +25,16 @@ Route::group([
         });
         Route::get('/verify', [RegisterController::class, 'verify'])
             ->name('auth.verify');
+    });
+
+    Route::group([
+        'prefix' => 'me',
+        'middleware' => ['auth:sanctum']
+    ], function () {
+
+        Route::get('/', [MeController::class, 'me'])
+            ->name('me.me');
+
     });
 
 });

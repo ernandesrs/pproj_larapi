@@ -18,12 +18,7 @@ class UserService implements ServiceInterface
         $user = User::create($validated);
 
         if ($user) {
-            $tokenCheck = $user->generateTokenToRegisterVerification();
-
-            \Mail::to($user)->queue(
-                new \App\Mail\RegisterVerificationMail($user, $tokenCheck)
-            );
-
+            self::sendVerificationLink($user);
             return $user;
         }
 
@@ -48,6 +43,26 @@ class UserService implements ServiceInterface
      */
     public static function delete(Model $model): bool
     {
+        return false;
+    }
+
+    /**
+     * Send verification link to user
+     * @param \App\Models\User $user
+     * @return bool
+     */
+    public static function sendVerificationLink(User $user): bool
+    {
+        $tokenCheck = $user->generateTokenToRegisterVerification();
+
+        if ($tokenCheck) {
+            \Mail::to($user)->queue(
+                new \App\Mail\RegisterVerificationMail($user, $tokenCheck)
+            );
+
+            return true;
+        }
+
         return false;
     }
 }

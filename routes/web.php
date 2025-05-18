@@ -7,9 +7,6 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/auth/verify', [RegisterController::class, 'verify'])
-    ->name('auth.verify');
-
 /**
  *
  *

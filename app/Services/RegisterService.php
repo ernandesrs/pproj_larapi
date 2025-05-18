@@ -14,7 +14,7 @@ class RegisterService
      */
     public static function verify(array $validated): bool
     {
-        $checkToken = TokenCheck::where('token', $validated['hash'])
+        $checkToken = TokenCheck::where('token', $validated['token'])
             ->where('token_to', TokenCheckEnum::REGISTER_VERIFICATION)
             ->first();
 

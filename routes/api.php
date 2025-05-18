@@ -15,6 +15,8 @@ Route::group([
         'middleware' => 'guest:sanctum'
     ], function () {
         Route::post('/register', [RegisterController::class, 'store'])->name('auth.register');
+        Route::get('/verify', [RegisterController::class, 'verify'])
+            ->name('auth.verify');
         Route::post('/login', [LoginController::class, 'login'])->name('auth.login');
     });
 

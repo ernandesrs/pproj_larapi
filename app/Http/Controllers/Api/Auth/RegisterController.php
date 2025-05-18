@@ -9,7 +9,6 @@ use App\Services\RegisterService;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
 
 class RegisterController extends Controller
 {
@@ -26,16 +25,18 @@ class RegisterController extends Controller
 
     /**
      * Verify account
-     * @return Response
+     * @return JsonResponse
      */
-    public function verify(Request $request): Response
+    public function verify(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'hash' => ['required', 'string']
+            'token' => ['nullable', 'string']
         ]);
 
-        $response = RegisterService::verify($validated);
+        throw_if(empty($validated['token']), \App\Exceptions\Api\InvalidTokenException::class);
 
-        return response($response ? 'Verified!' : 'Verification failed!');
+        return RegisterService::verify($validated) ?
+            ApiResponse::success() :
+            ApiResponse::unauthorized();
     }
 }

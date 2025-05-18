@@ -3,10 +3,13 @@
 namespace App\Http\Requests;
 
 use App\Rules\UserRules;
+use App\Traits\ApiRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
 
 class UserRegisterRequest extends FormRequest
 {
+    use ApiRequestTrait;
+
     /**
      * Determine if the user is authorized to make this request.
      */

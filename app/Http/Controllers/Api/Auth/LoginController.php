@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Exceptions\Api\InvalidLoginCredentialsException;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
@@ -20,13 +21,13 @@ class LoginController extends Controller
         $appName = $request->header('X-From-AppName');
         $validated = $request->validated();
 
-        $attemptResponse = \Auth::attempt([
-            'email' => $validated['email'],
-            'password' => $validated['password']
-        ], $validated['remember']);
-
-        if (!$attemptResponse) {
-            return ApiResponse::unauthorized();
+        if (
+            !\Auth::attempt([
+                'email' => $validated['email'],
+                'password' => $validated['password']
+            ], $validated['remember'])
+        ) {
+            throw new InvalidLoginCredentialsException();
         }
 
         $oldTokens = \Auth::user()->tokens()->where('name', $appName)->get();

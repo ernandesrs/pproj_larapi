@@ -4,6 +4,7 @@ namespace App\Http\Requests;
 
 use App\Traits\ApiRequestTrait;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class LoginRequest extends FormRequest
 {
@@ -28,6 +29,11 @@ class LoginRequest extends FormRequest
                 'remember' => false
             ]);
         }
+
+        $tokenName = $this->header('X-Token-Name', 'default');
+        $this->merge([
+            'token_name' => in_array($tokenName, ['default', 'webapp', 'mobileapp']) ? $tokenName : 'default'
+        ]);
     }
 
     /**
@@ -38,6 +44,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'token_name' => ['required', 'string'],
             'email' => ['required', 'email', 'exists:users,email'],
             'password' => ['required', 'string'],
             'remember' => ['nullable', 'boolean']

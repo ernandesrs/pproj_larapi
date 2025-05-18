@@ -18,9 +18,7 @@ class LoginController extends Controller
      */
     public function login(LoginRequest $request): JsonResponse
     {
-        $appName = $request->header('X-From-AppName');
         $validated = $request->validated();
-
         if (
             !\Auth::attempt([
                 'email' => $validated['email'],
@@ -30,13 +28,13 @@ class LoginController extends Controller
             throw new InvalidLoginCredentialsException();
         }
 
-        $oldTokens = \Auth::user()->tokens()->where('name', $appName)->get();
+        $oldTokens = \Auth::user()->tokens()->where('name', $validated['token_name'])->get();
         if ($oldTokens->count()) {
             $oldTokens->map(fn($token) => $token->delete());
         }
 
         return ApiResponse::success([
-            'auth_token' => \Auth::user()->createToken($appName)->plainTextToken
+            'auth_token' => \Auth::user()->createToken($validated['token_name'])->plainTextToken
         ]);
     }
 }

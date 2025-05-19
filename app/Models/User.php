@@ -78,7 +78,7 @@ class User extends Authenticatable
     {
         return $this->tokensCheck()->create([
             'token_to' => \App\Enums\TokenCheckEnum::REGISTER_VERIFICATION,
-            'token' => \Str::random(60)
+            'token' => \Str::upper(\Str::random(5))
         ]);
     }
 }

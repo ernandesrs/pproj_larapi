@@ -1,13 +1,15 @@
 <x-mail::message>
-# {{$user->first_name}}, your registration needs confirmation.
+# {{$user->first_name}}, verify your account.
 
-You created an account in {{config('app.name')}} and you need to confirm the registration of your account, for this, click the button below or copy the paste the verification address in your browser.
-
-<x-mail::button :url="route('auth.verify', ['token' => $tokenCheck->token])">
-Confirm registration
-</x-mail::button>
-
-{{route('auth.verify', ['token' => $tokenCheck->token])}}
+<p>
+This is your verification CODE:
+</p>
+<div class="" style="display: flex; justify-content:center; align-items:center; padding: 8px 12px; border:1px solid #f2f2f2e3;margin:10px 0 10px 0;font-size: large; font-weight: bold;">
+{{$tokenCheck->token}}
+</div>
+<p>
+This code will expire in 5 minutes.
+</p>
 
 Thanks,<br>
 {{ config('app.name') }}

@@ -16,5 +16,9 @@ Route::get('/', function () {
  */
 Route::get('/mailable', function () {
     $user = \App\Models\User::first();
-    // return new App\Mail\RegisterVerificationMail($user);
+    $check = \App\Models\TokenCheck::make([
+        'token_to' => \App\Enums\TokenCheckEnum::REGISTER_VERIFICATION,
+        'token' => \Str::upper(\Str::random(5))
+    ]);
+    return new App\Mail\RegisterVerificationMail($user, $check);
 });

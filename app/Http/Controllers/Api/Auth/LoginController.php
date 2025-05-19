@@ -6,6 +6,7 @@ use App\Exceptions\Api\InvalidLoginCredentialsException;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\LoginRequest;
+use App\Services\AuthService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -19,22 +20,12 @@ class LoginController extends Controller
     public function login(LoginRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        if (
-            !\Auth::attempt([
-                'email' => $validated['email'],
-                'password' => $validated['password']
-            ], $validated['remember'])
-        ) {
-            throw new InvalidLoginCredentialsException();
-        }
 
-        $oldTokens = \Auth::user()->tokens()->where('name', $validated['token_name'])->get();
-        if ($oldTokens->count()) {
-            $oldTokens->map(fn($token) => $token->delete());
-        }
+        $authUser = AuthService::login($validated);
+        throw_if(!$authUser, new InvalidLoginCredentialsException());
 
         return ApiResponse::success([
-            'auth_token' => \Auth::user()->createToken($validated['token_name'])->plainTextToken
+            'auth_token' => AuthService::getAuthToken($validated['token_name'])
         ]);
     }
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\Auth;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegisterRequest;
+use App\Services\AuthService;
 use App\Services\RegisterService;
 use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
@@ -17,23 +18,32 @@ class RegisterController extends Controller
      */
     public function store(UserRegisterRequest $request): JsonResponse
     {
-        $user = UserService::create($request->validated());
+        $validated = $request->validated();
+        $user = UserService::create($validated);
+
+        AuthService::login([
+            'email' => $user->email,
+            'password' => $validated['password'],
+            'remember' => false
+        ]);
+
         return ApiResponse::success([
+            'auth_token' => AuthService::getAuthToken($validated['token_name']),
             'data' => $user
         ]);
     }
 
     /**
-     * Verify account
+     * Register verify
      * @return JsonResponse
      */
-    public function verify(Request $request): JsonResponse
+    public function registerVerify(Request $request): JsonResponse
     {
         $validated = $request->validate([
-            'token' => ['nullable', 'string']
+            'code' => ['nullable', 'string']
         ]);
 
-        throw_if(empty($validated['token']), \App\Exceptions\Api\InvalidTokenException::class);
+        throw_if(empty($validated['code']), \App\Exceptions\Api\InvalidTokenException::class);
 
         return RegisterService::verify($validated) ?
             ApiResponse::success() :

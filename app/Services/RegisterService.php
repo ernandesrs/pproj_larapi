@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Enums\TokenCheckEnum;
-use App\Models\TokenCheck;
 use App\Models\User;
 
 class RegisterService
@@ -15,12 +14,18 @@ class RegisterService
      */
     public static function verify(array $validated): bool
     {
-        $checkToken = TokenCheck::where('token', $validated['token'])
+        $checkToken = \Auth::user()->tokensCheck()->where('token', $validated['code'])
             ->where('token_to', TokenCheckEnum::REGISTER_VERIFICATION)
             ->first();
 
         if (!$checkToken)
             return false;
+
+        // Check token validity
+        $createdAt = $checkToken->created_at;
+        if ($createdAt->addMinutes(5) <= \Illuminate\Support\Carbon::now()) {
+            throw new \App\Exceptions\Api\InvalidTokenException("Invalid or expired code, please request a new code.");
+        }
 
         $user = $checkToken->user()->first();
         if ($user) {

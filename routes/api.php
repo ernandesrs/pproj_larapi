@@ -23,8 +23,16 @@ Route::group([
             Route::post('/login', [LoginController::class, 'login'])
                 ->name('auth.login');
         });
+
         Route::get('/verify', [RegisterController::class, 'verify'])
             ->name('auth.verify');
+
+        Route::group([
+            'middleware' => 'auth:sanctum'
+        ], function () {
+            Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])
+                ->name('auth.resendVerification');
+        });
     });
 
     Route::group([

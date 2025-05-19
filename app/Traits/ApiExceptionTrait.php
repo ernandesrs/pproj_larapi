@@ -26,7 +26,7 @@ trait ApiExceptionTrait
     {
         $response = [
             "error" => str_replace("Exception", "", class_basename($this)),
-            "message" => $this->message(),
+            "message" => empty($this->message) ? $this->message() : $this->message,
         ];
 
         if ($errors = session()->get("validation_errors", null)) {

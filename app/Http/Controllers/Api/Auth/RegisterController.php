@@ -39,4 +39,26 @@ class RegisterController extends Controller
             ApiResponse::success() :
             ApiResponse::unauthorized();
     }
+
+    /**
+     * Resend verification link
+     * @return JsonResponse
+     */
+    public function resendVerification(): JsonResponse
+    {
+        $user = \Auth::user();
+
+        throw_if($user->email_verified_at != null, \App\Exceptions\Api\EmailHasAlreadyBeenVerifiedException::class);
+
+        $tokenCheck = $user->tokensCheck()->first();
+        if ($tokenCheck) {
+            /**
+             * @var \Illuminate\Support\Carbon
+             */
+            $createdAt = $tokenCheck->created_at;
+            throw_if($createdAt->addMinutes(5) >= \Illuminate\Support\Carbon::now(), new \App\Exceptions\Api\ManyAttemptsException("Email has already been sent! Wait or try in a few minutes."));
+        }
+
+        return RegisterService::sendVerification($user) ? ApiResponse::success() : ApiResponse::response(status: 401);
+    }
 }

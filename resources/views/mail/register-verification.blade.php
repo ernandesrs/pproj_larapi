@@ -3,11 +3,11 @@
 
 You created an account in {{config('app.name')}} and you need to confirm the registration of your account, for this, click the button below or copy the paste the verification address in your browser.
 
-<x-mail::button :url="route('auth.verify', ['hash' => $tokenCheck->token])">
+<x-mail::button :url="route('auth.verify', ['token' => $tokenCheck->token])">
 Confirm registration
 </x-mail::button>
 
-{{route('auth.verify', ['hash' => $tokenCheck->token])}}
+{{route('auth.verify', ['token' => $tokenCheck->token])}}
 
 Thanks,<br>
 {{ config('app.name') }}

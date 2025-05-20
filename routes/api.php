@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
+use App\Http\Controllers\Api\Auth\PasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Me\MeController;
 use Illuminate\Support\Facades\Route;
@@ -22,6 +23,10 @@ Route::group([
                 ->name('auth.register');
             Route::post('/login', [LoginController::class, 'login'])
                 ->name('auth.login');
+            Route::post('/password-forget', [PasswordController::class, 'passwordForget'])
+                ->name('auth.passwordForget')->middleware([
+                        'throttle:5,1'
+                    ]);
         });
 
         Route::group([

@@ -2,7 +2,6 @@
 
 namespace App\Mail;
 
-use App\Models\TokenCheck;
 use App\Models\User;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
@@ -11,15 +10,17 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class RegisterVerificationMail extends Mailable
+class PasswordForgetMail extends Mailable
 {
     use Queueable, SerializesModels;
 
     /**
      * Create a new message instance.
      */
-    public function __construct(public User $user, public TokenCheck $tokenCheck)
-    {
+    public function __construct(
+        public User $user,
+        public string $code
+    ) {
     }
 
     /**
@@ -28,7 +29,7 @@ class RegisterVerificationMail extends Mailable
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: '[ ' . config('app.name') . ' ] Register Verification Mail',
+            subject: '[ ' . config('app.name') . ' ] Password Forget Mail',
         );
     }
 
@@ -38,7 +39,7 @@ class RegisterVerificationMail extends Mailable
     public function content(): Content
     {
         return new Content(
-            markdown: 'mail.register-verification',
+            markdown: 'mail.password-forget',
         );
     }
 

@@ -52,7 +52,9 @@ Route::group([
     ], function () {
 
         Route::get('/', [MeController::class, 'me'])
-            ->name('me.me');
+            ->name('me');
+        Route::get('/roles', [MeController::class, 'roles'])
+            ->name('me.roles');
 
     });
 

@@ -35,12 +35,8 @@ class MeController extends Controller
                         Permission::all() :
                         $role->permissions()->get();
                     return [
-                        'id' => $role->id,
                         'name' => $role->name,
-                        'permissions' => $permissions->map(fn(Permission $permission) => [
-                            'id' => $permission->id,
-                            'name' => $permission->name
-                        ])
+                        'permissions' => $permissions->map(fn(Permission $permission) => $permission->name)
                     ];
                 })
         ]);

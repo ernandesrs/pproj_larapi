@@ -13,6 +13,17 @@ use Illuminate\Http\Request;
 class AppController extends Controller
 {
     /**
+     * Get all defined application layers
+     * @return JsonResponse
+     */
+    public function layers(): JsonResponse
+    {
+        return ApiResponse::success([
+            'layers' => collect(AppLayer::cases())->map(fn($appLayer) => $appLayer->value)
+        ]);
+    }
+
+    /**
      * Get all registered application roles
      * @return JsonResponse
      */
@@ -32,7 +43,7 @@ class AppController extends Controller
     }
 
     /**
-     * Get all registered application permissions
+     * Get all defined application permissions
      * @return JsonResponse
      */
     public function permissions(string $layer): JsonResponse

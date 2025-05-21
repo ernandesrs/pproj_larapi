@@ -8,7 +8,6 @@ namespace App\Enums;
 enum AppLayer: string
 {
     case ADMIN = 'admin';
-    case CUSTOMER = 'customer';
 
     /**
      * Label
@@ -18,7 +17,6 @@ enum AppLayer: string
     {
         return match ($this) {
             self::ADMIN => 'Administrator',
-            self::CUSTOMER => 'Cliente',
         };
     }
 }

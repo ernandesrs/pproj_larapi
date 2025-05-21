@@ -17,6 +17,8 @@ Route::group([
         'prefix' => 'app'
     ], function () {
 
+        Route::get('/layers', [AppController::class, 'layers'])
+            ->name('app.layers');
         Route::get('/roles', [AppController::class, 'roles'])
             ->name('app.roles');
         Route::get('/permissions/{layer}', [AppController::class, 'permissions'])

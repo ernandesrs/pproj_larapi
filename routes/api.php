@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Controllers\Api\App\AppController;
+use App\Http\Controllers\Api\App\ApplicationController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\ForgetedPasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
@@ -17,11 +17,11 @@ Route::group([
         'prefix' => 'app'
     ], function () {
 
-        Route::get('/layers', [AppController::class, 'layers'])
+        Route::get('/layers', [ApplicationController::class, 'layers'])
             ->name('app.layers');
-        Route::get('/roles', [AppController::class, 'roles'])
+        Route::get('/roles', [ApplicationController::class, 'roles'])
             ->name('app.roles');
-        Route::get('/permissions/{layer}', [AppController::class, 'permissions'])
+        Route::get('/permissions/{layer}', [ApplicationController::class, 'permissions'])
             ->name('app.permissions');
 
     });

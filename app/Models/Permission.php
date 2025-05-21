@@ -2,16 +2,16 @@
 
 namespace App\Models;
 
-use App\Enums\AppLayer;
+use App\Enums\ApplicationLayers;
 
 class Permission extends \Spatie\Permission\Models\Permission
 {
     /**
      * Map permissions enums classes
-     * @param ?AppLayer $layer
+     * @param ?ApplicationLayers $layer
      * @return string[]
      */
-    private static function mapPermissionsClasses(?AppLayer $layer = null)
+    private static function mapPermissionsClasses(?ApplicationLayers $layer = null)
     {
         $layerAsNamespacePartial = $layer ? \Str::ucfirst($layer->value) : null;
         $directory = app_path('Enums\Permissions' . ($layerAsNamespacePartial ? '\\' . $layerAsNamespacePartial : ''));
@@ -45,10 +45,10 @@ class Permission extends \Spatie\Permission\Models\Permission
 
     /**
      * Get all defined permissions
-     * @param ?AppLayer $layer
+     * @param ?ApplicationLayers $layer
      * @return array['resource_name'=>[//resource permissions]]
      */
-    public static function getDefinedPermissions(?AppLayer $layer = null): array
+    public static function getDefinedPermissions(?ApplicationLayers $layer = null): array
     {
         $permissions = [];
         $mappedPermissions = self::mapPermissionsClasses($layer);

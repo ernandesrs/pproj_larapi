@@ -5,7 +5,7 @@ namespace App\Enums;
 /**
  * Define all application layer
  */
-enum AppLayer: string
+enum ApplicationLayers: string
 {
     case ADMIN = 'admin';
 

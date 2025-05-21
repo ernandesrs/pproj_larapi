@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     // dd(\App\Models\Permission::getDefinedPermissions(
-    //     \App\Enums\AppLayer::CUSTOMER
+    //     \App\Enums\ApplicationLayers::CUSTOMER
     // ));
     return view('welcome');
 });

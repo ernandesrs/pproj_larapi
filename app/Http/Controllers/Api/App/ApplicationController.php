@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Api\App;
 
-use App\Enums\AppLayer;
+use App\Enums\ApplicationLayers;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Models\Permission;
@@ -10,7 +10,7 @@ use App\Models\Role;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
-class AppController extends Controller
+class ApplicationController extends Controller
 {
     /**
      * Get all defined application layers
@@ -19,7 +19,7 @@ class AppController extends Controller
     public function layers(): JsonResponse
     {
         return ApiResponse::success([
-            'layers' => collect(AppLayer::cases())->map(fn($appLayer) => $appLayer->value)
+            'layers' => collect(ApplicationLayers::cases())->map(fn($ApplicationLayers) => $ApplicationLayers->value)
         ]);
     }
 
@@ -48,7 +48,7 @@ class AppController extends Controller
      */
     public function permissions(string $layer): JsonResponse
     {
-        $layer = collect(AppLayer::cases())->first(fn($appLayer) => $appLayer->value == $layer);
+        $layer = collect(ApplicationLayers::cases())->first(fn($applicationLayers) => $applicationLayers->value == $layer);
         return $layer ?
             ApiResponse::success([
                 'permissions' => Permission::getDefinedPermissions($layer)

@@ -34,14 +34,14 @@ class RoleAndPermissionSeeder extends Seeder
                 'name' => $role->value
             ]);
 
-            if ($role->name == RoleEnum::ADMINUSER) {
+            if ($role->name == RoleEnum::ADMINUSER->value) {
                 $role->givePermissionTo([
-                    UserPermissionEnum::VIEW_ANY,
-                    UserPermissionEnum::VIEW,
-                    UserPermissionEnum::CREATE,
+                    UserPermissionEnum::VIEW_ANY->value,
+                    UserPermissionEnum::VIEW->value,
+                    UserPermissionEnum::CREATE->value,
 
-                    RolePermissionEnum::VIEW_ANY,
-                    RolePermissionEnum::VIEW,
+                    RolePermissionEnum::VIEW_ANY->value,
+                    RolePermissionEnum::VIEW->value,
                 ]);
             }
         }

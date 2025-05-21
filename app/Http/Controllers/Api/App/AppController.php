@@ -1,0 +1,50 @@
+<?php
+
+namespace App\Http\Controllers\Api\App;
+
+use App\Enums\AppLayer;
+use App\Helpers\ApiResponse;
+use App\Http\Controllers\Controller;
+use App\Models\Permission;
+use App\Models\Role;
+use Illuminate\Http\JsonResponse;
+use Illuminate\Http\Request;
+
+class AppController extends Controller
+{
+    /**
+     * Get all registered application roles
+     * @return JsonResponse
+     */
+    public function roles(): JsonResponse
+    {
+        return ApiResponse::success([
+            'roles' => Role::all()->map(function (Role $role) {
+                $permissions = $role->name == \App\Enums\RoleEnum::SUPERUSER->value ?
+                    Permission::all(['name']) :
+                    $role->permissions()->get(['name']);
+                return [
+                    'name' => $role->name,
+                    'permissions' => $permissions->map(fn($permission) => $permission->name)
+                ];
+            })
+        ]);
+    }
+
+    /**
+     * Get all registered application permissions
+     * @return JsonResponse
+     */
+    public function permissions(string $layer): JsonResponse
+    {
+        $layer = collect(AppLayer::cases())->first(fn($appLayer) => $appLayer->value == $layer);
+        return $layer ?
+            ApiResponse::success([
+                'permissions' => Permission::getDefinedPermissions($layer)
+            ]) :
+            ApiResponse::invalidated([
+                'error' => 'InvalidLayer',
+                'message' => 'The provided layer name is invalid.'
+            ]);
+    }
+}

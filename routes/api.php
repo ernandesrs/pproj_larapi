@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\App\AppController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\ForgetedPasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
@@ -11,6 +12,17 @@ Route::group([
 ], function () {
 
     Route::get('/test', fn() => \App\Helpers\ApiResponse::success());
+
+    Route::group([
+        'prefix' => 'app'
+    ], function () {
+
+        Route::get('/roles', [AppController::class, 'roles'])
+            ->name('app.roles');
+        Route::get('/permissions/{layer}', [AppController::class, 'permissions'])
+            ->name('app.permissions');
+
+    });
 
     Route::group([
         'prefix' => 'auth'

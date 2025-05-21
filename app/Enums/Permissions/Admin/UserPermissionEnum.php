@@ -6,6 +6,7 @@ use App\Interfaces\PermissionInterface;
 
 enum UserPermissionEnum: string implements PermissionInterface
 {
+    case ADMIN_ACCESS = 'admin_access';
     case VIEW_ANY = 'view_any_user';
     case VIEW = 'view_user';
     case CREATE = 'create_user';
@@ -24,6 +25,7 @@ enum UserPermissionEnum: string implements PermissionInterface
     public function label(): string
     {
         return match ($this) {
+            self::ADMIN_ACCESS => 'Admin access',
             self::VIEW_ANY => 'View users',
             self::VIEW => 'View user',
             self::CREATE => 'Create user',

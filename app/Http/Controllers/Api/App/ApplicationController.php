@@ -31,12 +31,9 @@ class ApplicationController extends Controller
     {
         return ApiResponse::success([
             'roles' => Role::all()->map(function (Role $role) {
-                $permissions = $role->name == \App\Enums\RoleEnum::SUPERUSER->value ?
-                    Permission::all(['name']) :
-                    $role->permissions()->get(['name']);
                 return [
                     'name' => $role->name,
-                    'permissions' => $permissions->map(fn($permission) => $permission->name)
+                    'permissions' => $role->permissions()->get(['name'])->map(fn($permission) => $permission->name)
                 ];
             })
         ]);

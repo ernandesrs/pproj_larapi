@@ -31,12 +31,10 @@ class MeController extends Controller
         return ApiResponse::success([
             'roles' => \Auth::user()->roles()->get()
                 ->map(function (Role $role) {
-                    $permissions = $role->name == \App\Enums\RoleEnum::SUPERUSER->value ?
-                        Permission::all() :
-                        $role->permissions()->get();
                     return [
                         'name' => $role->name,
-                        'permissions' => $permissions->map(fn(Permission $permission) => $permission->name)
+                        'permissions' => $role->permissions()->get()
+                            ->map(fn(Permission $permission) => $permission->name)
                     ];
                 })
         ]);

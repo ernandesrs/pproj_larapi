@@ -34,8 +34,17 @@ class RoleAndPermissionSeeder extends Seeder
                 'name' => $role->value
             ]);
 
+            if ($role->name == RoleEnum::SUPERUSER->value) {
+                $allPermissions = collect(Permission::getDefinedPermissions())->map(function ($resource) {
+                    return collect($resource)->map(fn($permission) => $permission->value);
+                });
+
+                $role->givePermissionTo($allPermissions);
+            }
+
             if ($role->name == RoleEnum::ADMINUSER->value) {
                 $role->givePermissionTo([
+                    UserPermissionEnum::ADMIN_ACCESS->value,
                     UserPermissionEnum::VIEW_ANY->value,
                     UserPermissionEnum::VIEW->value,
                     UserPermissionEnum::CREATE->value,

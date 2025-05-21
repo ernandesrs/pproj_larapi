@@ -14,8 +14,6 @@ enum RolePermissionEnum: string implements PermissionInterface
     case DELETE_MANY = 'delete_many_role';
     case RESTORE = 'restore_role';
     case FORCE_DELETE = 'force_delete_role';
-    case PROMOTE_USER = 'promote_role';
-    case DEMOTE_USER = 'demote_role';
 
     /**
      * Label

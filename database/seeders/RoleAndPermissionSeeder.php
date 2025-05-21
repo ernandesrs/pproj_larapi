@@ -2,8 +2,8 @@
 
 namespace Database\Seeders;
 
-use App\Enums\Permissions\RolePermissionEnum;
-use App\Enums\Permissions\UserPermissionEnum;
+use App\Enums\Permissions\Admin\RolePermissionEnum;
+use App\Enums\Permissions\Admin\UserPermissionEnum;
 use App\Enums\RoleEnum;
 use App\Models\Permission;
 use App\Models\Role;

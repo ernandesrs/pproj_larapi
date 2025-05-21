@@ -4,6 +4,9 @@ use App\Http\Controllers\Api\Auth\RegisterController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
+    // dd(\App\Models\Permission::getDefinedPermissions(
+    //     \App\Enums\AppLayer::CUSTOMER
+    // ));
     return view('welcome');
 });
 

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Enums\Permissions;
+namespace App\Enums\Permissions\Admin;
 
 use App\Interfaces\PermissionInterface;
 

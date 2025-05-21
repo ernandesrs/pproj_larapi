@@ -4,7 +4,7 @@ namespace Database\Seeders;
 
 use App\Enums\Permissions\Admin\RolePermissionEnum;
 use App\Enums\Permissions\Admin\UserPermissionEnum;
-use App\Enums\RoleEnum;
+use App\Enums\RolesEnum;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -29,12 +29,12 @@ class RoleAndPermissionSeeder extends Seeder
         }
 
         // Store roles
-        foreach (RoleEnum::cases() as $role) {
+        foreach (RolesEnum::cases() as $role) {
             $role = Role::createOrFirst([
                 'name' => $role->value
             ]);
 
-            if ($role->name == RoleEnum::SUPERUSER->value) {
+            if ($role->name == RolesEnum::SUPERUSER->value) {
                 $allPermissions = collect(Permission::getDefinedPermissions())->map(function ($resource) {
                     return collect($resource)->map(fn($permission) => $permission->value);
                 });
@@ -42,7 +42,7 @@ class RoleAndPermissionSeeder extends Seeder
                 $role->givePermissionTo($allPermissions);
             }
 
-            if ($role->name == RoleEnum::ADMINUSER->value) {
+            if ($role->name == RolesEnum::ADMINUSER->value) {
                 $role->givePermissionTo([
                     UserPermissionEnum::ADMIN_ACCESS->value,
                     UserPermissionEnum::VIEW_ANY->value,

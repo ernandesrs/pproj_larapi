@@ -7,7 +7,7 @@ use App\Interfaces\RoleInterface;
 /**
  * Enum to define all application roles
  */
-enum RoleEnum: string implements RoleInterface
+enum RolesEnum: string implements RoleInterface
 {
     case SUPERUSER = 'super_user';
 

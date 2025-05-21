@@ -73,6 +73,24 @@ class UserService implements ServiceInterface
     }
 
     /**
+     * Password update
+     * @param array $validated
+     * @return bool
+     */
+    public static function passwordUpdate(User $user, array $validated, bool $forgeted = false): bool
+    {
+        if ($forgeted) {
+            \DB::table('password_reset_tokens')
+                ->where('email', $user->email)
+                ->where('token', $validated['code'])->delete();
+        }
+
+        return $user->update([
+            'password' => \Hash::make($validated['password'])
+        ]);
+    }
+
+    /**
      * Delete a resource
      * @param \Illuminate\Database\Eloquent\Model $model
      * @return bool

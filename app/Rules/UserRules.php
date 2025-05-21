@@ -26,11 +26,11 @@ class UserRules implements RuleInterface
 
     /**
      * User update rules
-     * @param \Illuminate\Database\Eloquent\Model $model
+     * @param ?\Illuminate\Database\Eloquent\Model $model
      * @param array $args
      * @return array
      */
-    public static function updateRules(Model $model, array $args = []): array
+    public static function updateRules(?Model $model = null, array $args = []): array
     {
         $rules = self::creationRules();
 

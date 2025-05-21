@@ -1,7 +1,7 @@
 <?php
 
 use App\Http\Controllers\Api\Auth\LoginController;
-use App\Http\Controllers\Api\Auth\PasswordController;
+use App\Http\Controllers\Api\Auth\ForgetedPasswordController;
 use App\Http\Controllers\Api\Auth\RegisterController;
 use App\Http\Controllers\Api\Me\MeController;
 use Illuminate\Support\Facades\Route;
@@ -39,10 +39,10 @@ Route::group([
         'prefix' => 'password'
     ], function () {
 
-        Route::post('/forget', [PasswordController::class, 'passwordForget'])
-            ->name('auth.passwordForget')->middleware([
-                    'throttle:5,1'
-                ]);
+        Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])
+            ->name('password.forget')->middleware(['throttle:5,1']);
+        Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
+            ->name('password.update');
 
     });
 

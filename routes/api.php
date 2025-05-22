@@ -14,19 +14,6 @@ Route::group([
     Route::get('/test', fn() => \App\Helpers\ApiResponse::success());
 
     Route::group([
-        'prefix' => 'app'
-    ], function () {
-
-        Route::get('/layers', [ApplicationController::class, 'layers'])
-            ->name('app.layers');
-        Route::get('/roles', [ApplicationController::class, 'roles'])
-            ->name('app.roles');
-        Route::get('/permissions/{layer}', [ApplicationController::class, 'permissions'])
-            ->name('app.permissions');
-
-    });
-
-    Route::group([
         'prefix' => 'auth'
     ], function () {
 
@@ -69,6 +56,33 @@ Route::group([
             ->name('me');
         Route::get('/roles', [MeController::class, 'roles'])
             ->name('me.roles');
+
+    });
+
+    Route::group([
+        'prefix' => 'app'
+    ], function () {
+
+        Route::get('/layers', [ApplicationController::class, 'layers'])
+            ->name('app.layers');
+        Route::get('/roles', [ApplicationController::class, 'roles'])
+            ->name('app.roles');
+        Route::get('/permissions/{layer}', [ApplicationController::class, 'permissions'])
+            ->name('app.permissions');
+
+    });
+
+    Route::group([
+        'prefix' => 'admin',
+        'middleware' => [
+            'auth:sanctum',
+            'admin_access'
+        ]
+    ], function () {
+
+        Route::get('/test', function () {
+            return \App\Helpers\ApiResponse::success();
+        })->name('admin.test');
 
     });
 

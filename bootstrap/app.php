@@ -12,15 +12,19 @@ return Application::configure(basePath: dirname(__DIR__))
         health: '/up',
     )
     ->withMiddleware(function (Middleware $middleware) {
-        //
+        $middleware->alias([
+            'admin_access' => \App\Http\Middleware\AdminAccess::class
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
-        if (\Request::is('api/*')) {
+        if (\Request::is('api/*') || \Request::expectsJson()) {
             $exceptions->renderable(function (\Exception $e, $request) {
                 $currentExceptionClass = get_class($e);
                 $customException = match ($currentExceptionClass) {
                     \Illuminate\Validation\ValidationException::class => \App\Exceptions\Api\InvalidDataException::class,
                     \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class => \App\Exceptions\Api\NotFoundException::class,
+                    \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException::class => \App\Exceptions\Api\UnauthorizedException::class,
+                    \Symfony\Component\HttpKernel\Exception\HttpException::class => \App\Exceptions\Api\UnauthorizedException::class,
 
                     default => null
                 };
@@ -30,7 +34,8 @@ return Application::configure(basePath: dirname(__DIR__))
 
             $exceptions->dontReport([
                 \App\Exceptions\Api\InvalidDataException::class,
-                \App\Exceptions\Api\NotFoundException::class
+                \App\Exceptions\Api\NotFoundException::class,
+                \App\Exceptions\Api\UnauthorizedException::class
             ]);
         }
     })->create();

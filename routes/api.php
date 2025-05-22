@@ -1,5 +1,7 @@
 <?php
 
+use App\Http\Controllers\Api\Admin\RolesController;
+use App\Http\Controllers\Api\Admin\UsersController;
 use App\Http\Controllers\Api\App\ApplicationController;
 use App\Http\Controllers\Api\Auth\LoginController;
 use App\Http\Controllers\Api\Auth\ForgetedPasswordController;
@@ -80,9 +82,23 @@ Route::group([
         ]
     ], function () {
 
-        Route::get('/test', function () {
-            return \App\Helpers\ApiResponse::success();
-        })->name('admin.test');
+        Route::get('/test', fn() => \App\Helpers\ApiResponse::success())->name('admin.test');
+
+        Route::group([
+            'prefix' => 'users'
+        ], function () {
+
+            Route::get('/', [UsersController::class, 'index'])->name('admin.users');
+
+        });
+
+        Route::group([
+            'prefix' => 'roles'
+        ], function () {
+
+            Route::get('/', [RolesController::class, 'index'])->name('admin.roles');
+
+        });
 
     });
 

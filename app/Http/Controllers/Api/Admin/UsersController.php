@@ -36,7 +36,7 @@ class UsersController extends Controller
         \Gate::authorize('create', User::class);
         $createdUser = UserService::create($request->validated());
         return ApiResponse::success([
-            'user' => $createdUser
+            'user' => $createdUser ? new UserResource($createdUser) : null
         ]);
     }
 

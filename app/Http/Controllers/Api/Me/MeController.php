@@ -33,6 +33,7 @@ class MeController extends Controller
                 ->map(function (Role $role) {
                     return [
                         'name' => $role->name,
+                        'admin_access' => $role->admin_access,
                         'permissions' => $role->permissions()->get()
                             ->map(fn(Permission $permission) => $permission->name)
                     ];

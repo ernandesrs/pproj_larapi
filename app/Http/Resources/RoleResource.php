@@ -14,9 +14,20 @@ class RoleResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        // return parent::toArray($request);
+        $inAdminLayer = $request->is('*/admin/*');
+        $data = parent::toArray($request);
+
+        if (!$inAdminLayer) {
+            unset(
+                $data['id'],
+                $data['guard_name'],
+                $data['created_at'],
+                $data['updated_at']
+            );
+        }
+
         return [
-            ...parent::toArray($request),
+            ...$data,
             'permissions' => $this->resource->permissions()->get()->map(fn($p) => $p->name)
         ];
     }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\App;
 use App\Enums\ApplicationLayers;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\RoleResource;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\JsonResponse;
@@ -30,12 +31,9 @@ class ApplicationController extends Controller
     public function roles(): JsonResponse
     {
         return ApiResponse::success([
-            'roles' => Role::all()->map(function (Role $role) {
-                return [
-                    'name' => $role->name,
-                    'permissions' => $role->permissions()->get(['name'])->map(fn($permission) => $permission->name)
-                ];
-            })
+            'roles' => RoleResource::collection(
+                Role::all()
+            )
         ]);
     }
 

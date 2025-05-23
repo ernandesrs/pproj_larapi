@@ -90,6 +90,7 @@ Route::group([
 
             Route::get('/', [UsersController::class, 'index']);
             Route::post('/create', [UsersController::class, 'store']);
+            Route::get('/{user}/show', [UsersController::class, 'show']);
 
         });
 

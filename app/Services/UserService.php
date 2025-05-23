@@ -101,6 +101,6 @@ class UserService implements ServiceInterface
      */
     public static function delete(Model $model): bool
     {
-        return false;
+        return $model->delete();
     }
 }

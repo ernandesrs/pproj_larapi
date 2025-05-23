@@ -92,6 +92,7 @@ Route::group([
             Route::post('/create', [UsersController::class, 'store']);
             Route::get('/{user}/show', [UsersController::class, 'show']);
             Route::put('/{user}/update', [UsersController::class, 'update']);
+            Route::delete('/{user}/delete', [UsersController::class, 'destroy']);
 
         });
 

@@ -74,10 +74,13 @@ class UsersController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Destroy a user
+     * @param \App\Models\User $user
+     * @return JsonResponse
      */
-    public function destroy(string $id)
+    public function destroy(User $user): JsonResponse
     {
-        //
+        \Gate::authorize('delete', $user);
+        return ApiResponse::response([], UserService::delete($user) ? 200 : 500);
     }
 }

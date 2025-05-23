@@ -59,11 +59,18 @@ class UsersController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update a user
+     * @param \App\Http\Requests\Admin\UserRequest $request
+     * @param \App\Models\User $user
+     * @return JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(UserRequest $request, User $user): JsonResponse
     {
-        //
+        \Gate::authorize('update', $user);
+        return ApiResponse::response(
+            [],
+            UserService::update($user, $request->validated()) ? 200 : 500
+        );
     }
 
     /**

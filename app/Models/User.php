@@ -3,6 +3,8 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Enums\Permissions\Admin\UserPermissionEnum;
+use App\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -50,6 +52,26 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Check if current user is a superuser
+     * @return bool
+     */
+    public function isSuperuser(): bool
+    {
+        return $this->hasRole(RolesEnum::SUPERUSER->value);
+    }
+
+    /**
+     * Check if current user is admin
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->hasPermissionTo(
+            UserPermissionEnum::ADMIN_ACCESS->value
+        );
     }
 
     /**

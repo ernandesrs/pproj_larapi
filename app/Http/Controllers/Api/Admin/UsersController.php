@@ -17,6 +17,8 @@ class UsersController extends Controller
      */
     public function index(): JsonResponse
     {
+        \Gate::authorize('viewAny', User::class);
+
         return ApiResponse::success([
             'items' => UserResource::collection(
                 User::limit(15)->get()

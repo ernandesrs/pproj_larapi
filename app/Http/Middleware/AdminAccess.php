@@ -15,7 +15,7 @@ class AdminAccess
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (!$request->user()->hasPermissionTo(\App\Enums\Permissions\Admin\UserPermissionEnum::ADMIN_ACCESS->value)) {
+        if (!$request->user()->isAdmin()) {
             abort(401);
         }
         return $next($request);

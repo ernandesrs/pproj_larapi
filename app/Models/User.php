@@ -69,9 +69,7 @@ class User extends Authenticatable
      */
     public function isAdmin(): bool
     {
-        return $this->hasPermissionTo(
-            UserPermissionEnum::ADMIN_ACCESS->value
-        );
+        return $this->roles()->where('admin_access', '=', true)->count() > 0;
     }
 
     /**

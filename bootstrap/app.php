@@ -25,6 +25,7 @@ return Application::configure(basePath: dirname(__DIR__))
                     \Symfony\Component\HttpKernel\Exception\NotFoundHttpException::class => \App\Exceptions\Api\NotFoundException::class,
                     \Symfony\Component\HttpKernel\Exception\UnauthorizedHttpException::class => \App\Exceptions\Api\UnauthorizedException::class,
                     \Symfony\Component\HttpKernel\Exception\HttpException::class => \App\Exceptions\Api\UnauthorizedException::class,
+                    \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException::class => \App\Exceptions\Api\ForbiddenException::class,
 
                     default => null
                 };
@@ -35,7 +36,8 @@ return Application::configure(basePath: dirname(__DIR__))
             $exceptions->dontReport([
                 \App\Exceptions\Api\InvalidDataException::class,
                 \App\Exceptions\Api\NotFoundException::class,
-                \App\Exceptions\Api\UnauthorizedException::class
+                \App\Exceptions\Api\UnauthorizedException::class,
+                \App\Exceptions\Api\ForbiddenException::class,
             ]);
         }
     })->create();

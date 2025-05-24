@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Enums\RolesEnum;
 use App\Interfaces\ServiceInterface;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
@@ -26,7 +27,7 @@ class RoleService implements ServiceInterface
      */
     public static function update(Model $model, array $validated): bool
     {
-        return false;
+        return $model->update($validated);
     }
 
     /**

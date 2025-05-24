@@ -8,6 +8,7 @@ use App\Http\Requests\Admin\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
 use App\Services\RoleService;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller
@@ -30,7 +31,7 @@ class RolesController extends Controller
      * @param \App\Http\Requests\Admin\RoleRequest $request
      * @return \Illuminate\Http\JsonResponse
      */
-    public function store(RoleRequest $request)
+    public function store(RoleRequest $request): JsonResponse
     {
         \Gate::authorize('create', Role::class);
         return ApiResponse::success([
@@ -49,11 +50,18 @@ class RolesController extends Controller
     }
 
     /**
-     * Update the specified resource in storage.
+     * Update role data
+     * @param \App\Http\Requests\Admin\RoleRequest $request
+     * @param \App\Models\Role $role
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function update(Request $request, string $id)
+    public function update(RoleRequest $request, Role $role): JsonResponse
     {
-        //
+        \Gate::authorize('update', $role);
+        $status = RoleService::update($role, $request->validated()) ? 200 : 500;
+        return ApiResponse::response([
+            'role' => new RoleResource($status == 200 ? $role->fresh() : $role)
+        ], $status);
     }
 
     /**

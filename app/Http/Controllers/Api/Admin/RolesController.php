@@ -6,6 +6,7 @@ use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\RoleRequest;
 use App\Http\Resources\RoleResource;
+use App\Models\Permission;
 use App\Models\Role;
 use App\Services\RoleService;
 use Illuminate\Http\JsonResponse;
@@ -67,6 +68,30 @@ class RolesController extends Controller
         return ApiResponse::response([
             'role' => new RoleResource($status == 200 ? $role->fresh() : $role)
         ], $status);
+    }
+
+    /**
+     * Give permission to a role
+     * @param \App\Models\Role $role
+     * @param \App\Models\Permission $permission
+     * @return JsonResponse
+     */
+    public function givePermission(Role $role, Permission $permission): JsonResponse
+    {
+        \Gate::authorize('updateRolePermissions', $role);
+        return ApiResponse::response([], RoleService::givePermission($role, $permission) ? 200 : 500);
+    }
+
+    /**
+     * Revoke a permission from a role
+     * @param \App\Models\Role $role
+     * @param \App\Models\Permission $permission
+     * @return JsonResponse
+     */
+    public function revokePermission(Role $role, Permission $permission): JsonResponse
+    {
+        \Gate::authorize('updateRolePermissions', $role);
+        return ApiResponse::response([], RoleService::revokePermission($role, $permission) ? 200 : 500);
     }
 
     /**

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\ServiceInterface;
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
 
@@ -27,6 +28,34 @@ class RoleService implements ServiceInterface
     public static function update(Model $model, array $validated): bool
     {
         return $model->update($validated);
+    }
+
+    /**
+     * Give permission
+     * @param \App\Models\Role $role
+     * @param \App\Models\Permission $permission
+     * @return bool
+     */
+    public static function givePermission(Role $role, Permission $permission): bool
+    {
+        if (!$role->hasPermissionTo($permission)) {
+            $role->givePermissionTo($permission);
+        }
+        return true;
+    }
+
+    /**
+     * Revoke permission
+     * @param \App\Models\Role $role
+     * @param \App\Models\Permission $permission
+     * @return bool
+     */
+    public static function revokePermission(Role $role, Permission $permission): bool
+    {
+        if ($role->hasPermissionTo($permission)) {
+            $role->revokePermissionTo($permission);
+        }
+        return true;
     }
 
     /**

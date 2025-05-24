@@ -92,9 +92,9 @@ Route::group([
             Route::post('/create', [UsersController::class, 'store']);
             Route::get('/{user}/show', [UsersController::class, 'show']);
             Route::put('/{user}/update', [UsersController::class, 'update']);
-            Route::delete('/{user}/delete', [UsersController::class, 'destroy']);
             Route::patch('/{user}/promote/{role}', [UsersController::class, 'promote']);
             Route::patch('/{user}/demote/{role}', [UsersController::class, 'demote']);
+            Route::delete('/{user}/delete', [UsersController::class, 'destroy']);
 
         });
 
@@ -106,6 +106,8 @@ Route::group([
             Route::post('/create', [RolesController::class, 'store']);
             Route::get('/{role}/show', [RolesController::class, 'show']);
             Route::put('/{role}/update', [RolesController::class, 'update']);
+            Route::patch('/{role}/give-permission/{permission}', [RolesController::class, 'givePermission']);
+            Route::patch('/{role}/revoke-permission/{permission}', [RolesController::class, 'revokePermission']);
             Route::delete('/{role}/delete', [RolesController::class, 'destroy']);
 
         });

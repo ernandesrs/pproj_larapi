@@ -22,6 +22,20 @@ class RolePolicy extends BasePolicy
     }
 
     /**
+     * Update role permissions
+     * @param \App\Models\User $user
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return bool
+     */
+    public function updateRolePermissions(\App\Models\User $user, \Illuminate\Database\Eloquent\Model $model): bool
+    {
+        if ($model->name === RolesEnum::SUPERUSER->value) {
+            return false;
+        }
+        return parent::update($user, $model);
+    }
+
+    /**
      * Delete
      * @param \App\Models\User $user
      * @param \Illuminate\Database\Eloquent\Model $model

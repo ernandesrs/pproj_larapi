@@ -42,11 +42,16 @@ class RolesController extends Controller
     }
 
     /**
-     * Display the specified resource.
+     * Show a role
+     * @param \App\Models\Role $role
+     * @return JsonResponse
      */
-    public function show(string $id)
+    public function show(Role $role): JsonResponse
     {
-        //
+        \Gate::authorize('view', $role);
+        return ApiResponse::success([
+            'role' => new RoleResource($role)
+        ]);
     }
 
     /**

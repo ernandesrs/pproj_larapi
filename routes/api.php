@@ -104,6 +104,7 @@ Route::group([
 
             Route::get('/', [RolesController::class, 'index']);
             Route::post('/create', [RolesController::class, 'store']);
+            Route::get('/{role}/show', [RolesController::class, 'show']);
             Route::put('/{role}/update', [RolesController::class, 'update']);
 
         });

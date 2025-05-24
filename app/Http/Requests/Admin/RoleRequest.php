@@ -10,9 +10,14 @@ class RoleRequest extends FormRequest
 {
     use ApiRequestTrait;
 
+    /**
+     * Prepare for validation
+     * @return void
+     */
     public function prepareForValidation()
     {
         $this->merge([
+            'guard_name' => $this->get('guard_name', 'web'),
             'admin_access' => $this->get('admin_access', false)
         ]);
     }

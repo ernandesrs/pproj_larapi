@@ -20,4 +20,20 @@ class RolePolicy extends BasePolicy
         }
         return parent::update($user, $model);
     }
+
+    /**
+     * Delete
+     * @param \App\Models\User $user
+     * @param \Illuminate\Database\Eloquent\Model $model
+     * @return bool
+     */
+    public function delete(\App\Models\User $user, \Illuminate\Database\Eloquent\Model $model): bool
+    {
+        // Default roles cannot be edited
+        if (collect(RolesEnum::cases())->map(fn($role) => $role->value)->contains($model->name)) {
+            return false;
+        }
+
+        return parent::delete($user, $model);
+    }
 }

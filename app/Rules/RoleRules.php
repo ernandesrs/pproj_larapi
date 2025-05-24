@@ -14,6 +14,7 @@ class RoleRules implements RuleInterface
     {
         return [
             'name' => ['required', 'string', 'unique:roles,name'],
+            'guard_name' => ['required', 'string'],
             'admin_access' => ['required', 'boolean']
         ];
     }

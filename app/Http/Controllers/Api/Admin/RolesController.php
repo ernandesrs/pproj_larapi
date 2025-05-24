@@ -70,10 +70,16 @@ class RolesController extends Controller
     }
 
     /**
-     * Remove the specified resource from storage.
+     * Destroy a role
+     * @param \App\Models\Role $role
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function destroy(string $id)
+    public function destroy(Role $role): JsonResponse
     {
-        //
+        \Gate::authorize('delete', $role);
+        return ApiResponse::response(
+            [],
+            RoleService::delete($role) ? 200 : 500
+        );
     }
 }

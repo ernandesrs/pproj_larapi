@@ -2,7 +2,6 @@
 
 namespace App\Services;
 
-use App\Enums\RolesEnum;
 use App\Interfaces\ServiceInterface;
 use App\Models\Role;
 use Illuminate\Database\Eloquent\Model;
@@ -37,6 +36,6 @@ class RoleService implements ServiceInterface
      */
     public static function delete(Model $model): bool
     {
-        return false;
+        return $model->delete();
     }
 }

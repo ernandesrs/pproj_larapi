@@ -106,6 +106,7 @@ Route::group([
             Route::post('/create', [RolesController::class, 'store']);
             Route::get('/{role}/show', [RolesController::class, 'show']);
             Route::put('/{role}/update', [RolesController::class, 'update']);
+            Route::delete('/{role}/delete', [RolesController::class, 'destroy']);
 
         });
 

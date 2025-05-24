@@ -93,6 +93,8 @@ Route::group([
             Route::get('/{user}/show', [UsersController::class, 'show']);
             Route::put('/{user}/update', [UsersController::class, 'update']);
             Route::delete('/{user}/delete', [UsersController::class, 'destroy']);
+            Route::patch('/{user}/promote/{role}', [UsersController::class, 'promote']);
+            Route::patch('/{user}/demote/{role}', [UsersController::class, 'demote']);
 
         });
 

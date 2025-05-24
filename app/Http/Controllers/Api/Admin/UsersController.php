@@ -83,4 +83,38 @@ class UsersController extends Controller
         \Gate::authorize('delete', $user);
         return ApiResponse::response([], UserService::delete($user) ? 200 : 500);
     }
+
+    /**
+     * Promote a user
+     * @param \App\Models\User $user
+     * @param \App\Models\Role $role
+     * @return JsonResponse
+     */
+    public function promote(User $user, Role $role): JsonResponse
+    {
+        \Gate::authorize('promote', $user);
+
+        if (!$user->hasRole($role->name)) {
+            $user->assignRole($role->name);
+        }
+
+        return ApiResponse::success();
+    }
+
+    /**
+     * Demote a user
+     * @param \App\Models\User $user
+     * @param \App\Models\Role $role
+     * @return JsonResponse
+     */
+    public function demote(User $user, Role $role): JsonResponse
+    {
+        \Gate::authorize('demote', $user);
+
+        if ($user->hasRole($role->name)) {
+            $user->removeRole($role->name);
+        }
+
+        return ApiResponse::success();
+    }
 }

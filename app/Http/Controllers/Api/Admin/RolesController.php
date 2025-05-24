@@ -4,14 +4,17 @@ namespace App\Http\Controllers\Api\Admin;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Admin\RoleRequest;
 use App\Http\Resources\RoleResource;
 use App\Models\Role;
+use App\Services\RoleService;
 use Illuminate\Http\Request;
 
 class RolesController extends Controller
 {
     /**
-     * Display a listing of the resource.
+     * Get all registered roles
+     * @return \Illuminate\Http\JsonResponse
      */
     public function index()
     {
@@ -23,11 +26,18 @@ class RolesController extends Controller
     }
 
     /**
-     * Store a newly created resource in storage.
+     * Store a new role
+     * @param \App\Http\Requests\Admin\RoleRequest $request
+     * @return \Illuminate\Http\JsonResponse
      */
-    public function store(Request $request)
+    public function store(RoleRequest $request)
     {
-        //
+        \Gate::authorize('create', Role::class);
+        return ApiResponse::success([
+            'role' => new RoleResource(
+                RoleService::create($request->validated())
+            )
+        ]);
     }
 
     /**

@@ -103,6 +103,7 @@ Route::group([
         ], function () {
 
             Route::get('/', [RolesController::class, 'index']);
+            Route::post('/create', [RolesController::class, 'store']);
 
         });
 

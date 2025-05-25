@@ -22,29 +22,23 @@ Route::group([
         Route::group([
             'middleware' => 'guest:sanctum'
         ], function () {
-            Route::post('/register', [RegisterController::class, 'store'])
-                ->name('auth.register');
-            Route::post('/login', [LoginController::class, 'login'])
-                ->name('auth.login');
+            Route::post('/register', [RegisterController::class, 'store']);
+            Route::post('/login', [LoginController::class, 'login']);
         });
 
         Route::group([
             'middleware' => 'auth:sanctum'
         ], function () {
-            Route::post('/register-verify', [RegisterController::class, 'registerVerify'])
-                ->name('auth.registerVerify');
-            Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])
-                ->name('auth.resendVerification');
+            Route::post('/register-verify', [RegisterController::class, 'registerVerify']);
+            Route::post('/resend-verification', [RegisterController::class, 'resendVerification']);
         });
 
         Route::group([
             'prefix' => 'password'
         ], function () {
 
-            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])
-                ->name('password.forget')->middleware(['throttle:5,1']);
-            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
-                ->name('password.update');
+            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])->middleware(['throttle:5,1']);
+            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate']);
 
         });
     });
@@ -54,10 +48,8 @@ Route::group([
         'middleware' => ['auth:sanctum']
     ], function () {
 
-        Route::get('/', [MeController::class, 'me'])
-            ->name('me');
-        Route::get('/roles', [MeController::class, 'roles'])
-            ->name('me.roles');
+        Route::get('/', [MeController::class, 'me']);
+        Route::get('/roles', [MeController::class, 'roles']);
 
     });
 
@@ -65,12 +57,9 @@ Route::group([
         'prefix' => 'app'
     ], function () {
 
-        Route::get('/layers', [ApplicationController::class, 'layers'])
-            ->name('app.layers');
-        Route::get('/roles', [ApplicationController::class, 'roles'])
-            ->name('app.roles');
-        Route::get('/permissions/{layer}', [ApplicationController::class, 'permissions'])
-            ->name('app.permissions');
+        Route::get('/layers', [ApplicationController::class, 'layers']);
+        Route::get('/roles', [ApplicationController::class, 'roles']);
+        Route::get('/permissions/{layer}', [ApplicationController::class, 'permissions']);
 
     });
 

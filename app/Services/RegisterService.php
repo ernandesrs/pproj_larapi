@@ -8,6 +8,16 @@ use App\Models\User;
 class RegisterService
 {
     /**
+     * Register user account
+     * @param array $validated
+     * @return User|null
+     */
+    public static function register(array $validated): User|null
+    {
+        return UserService::create($validated, true);
+    }
+
+    /**
      * Verify
      * @param array $validated
      * @return bool

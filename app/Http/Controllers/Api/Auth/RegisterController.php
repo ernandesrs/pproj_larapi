@@ -2,24 +2,28 @@
 
 namespace App\Http\Controllers\Api\Auth;
 
+use App\Exceptions\Api\EmailHasAlreadyBeenVerifiedException;
+use App\Exceptions\Api\InvalidTokenException;
+use App\Exceptions\Api\ManyAttemptsException;
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserRegisterRequest;
 use App\Services\AuthService;
 use App\Services\RegisterService;
-use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class RegisterController extends Controller
 {
     /**
-     * Store a newly created resource in storage.
+     * Store user account
+     * @param \App\Http\Requests\UserRegisterRequest $request
+     * @return JsonResponse
      */
     public function store(UserRegisterRequest $request): JsonResponse
     {
         $validated = $request->validated();
-        $user = UserService::create($validated);
+        $user = RegisterService::register($validated);
 
         AuthService::login([
             'email' => $user->email,
@@ -36,6 +40,7 @@ class RegisterController extends Controller
     /**
      * Register verify
      * @return JsonResponse
+     * @exception \App\Exceptions\Api\InvalidTokenException
      */
     public function registerVerify(Request $request): JsonResponse
     {
@@ -43,7 +48,7 @@ class RegisterController extends Controller
             'code' => ['nullable', 'string']
         ]);
 
-        throw_if(empty($validated['code']), \App\Exceptions\Api\InvalidTokenException::class);
+        throw_if(empty($validated['code']), InvalidTokenException::class);
 
         return RegisterService::verify($validated) ?
             ApiResponse::success() :
@@ -53,12 +58,14 @@ class RegisterController extends Controller
     /**
      * Resend verification link
      * @return JsonResponse
+     * @exception \App\Exceptions\Api\EmailHasAlreadyBeenVerifiedException
+     * @exception \App\Exceptions\Api\ManyAttemptsException
      */
     public function resendVerification(): JsonResponse
     {
         $user = \Auth::user();
 
-        throw_if($user->email_verified_at != null, \App\Exceptions\Api\EmailHasAlreadyBeenVerifiedException::class);
+        throw_if($user->email_verified_at != null, EmailHasAlreadyBeenVerifiedException::class);
 
         $tokenCheck = $user->tokensCheck()->first();
         if ($tokenCheck) {
@@ -66,9 +73,9 @@ class RegisterController extends Controller
              * @var \Illuminate\Support\Carbon
              */
             $createdAt = $tokenCheck->created_at;
-            throw_if($createdAt->addMinutes(5) >= \Illuminate\Support\Carbon::now(), new \App\Exceptions\Api\ManyAttemptsException("Email has already been sent! Wait or try in a few minutes."));
+            throw_if($createdAt->addMinutes(5) >= \Illuminate\Support\Carbon::now(), new ManyAttemptsException("Email has already been sent! Wait or try in a few minutes."));
         }
 
-        return RegisterService::sendVerification($user) ? ApiResponse::success() : ApiResponse::response(status: 401);
+        return RegisterService::sendVerification($user) ? ApiResponse::success() : ApiResponse::response(status: 500);
     }
 }

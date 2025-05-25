@@ -14,11 +14,11 @@ class UserService implements ServiceInterface
      * @param array $validated
      * @return ?User
      */
-    public static function create(array $validated): ?User
+    public static function create(array $validated, bool $sendVerification = false): ?User
     {
         $user = User::create($validated);
 
-        if ($user) {
+        if ($user && $sendVerification) {
             RegisterService::sendVerification($user);
             return $user;
         }

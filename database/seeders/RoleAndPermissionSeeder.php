@@ -31,7 +31,8 @@ class RoleAndPermissionSeeder extends Seeder
         // Store roles
         foreach (RolesEnum::cases() as $role) {
             $role = Role::createOrFirst([
-                'name' => $role->value
+                'name' => $role->value,
+                'admin_access' => true
             ]);
 
             if ($role->name == RolesEnum::SUPERUSER->value) {
@@ -44,7 +45,6 @@ class RoleAndPermissionSeeder extends Seeder
 
             if ($role->name == RolesEnum::ADMINUSER->value) {
                 $role->givePermissionTo([
-                    UserPermissionEnum::ADMIN_ACCESS->value,
                     UserPermissionEnum::VIEW_ANY->value,
                     UserPermissionEnum::VIEW->value,
                     UserPermissionEnum::CREATE->value,

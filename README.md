@@ -1,61 +1,35 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
+# LARAPI
 
-<p align="center">
-<a href="https://github.com/laravel/framework/actions"><img src="https://github.com/laravel/framework/workflows/tests/badge.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+# REQUISITOS
+    - PHP 8.*
+    - Node JS
+    - Composer
 
-## About Laravel
+# INSTALLATION
+Obtenha o código do projeto fazendo um clone do projeto:
+> git clone https://github.com/ernandesrs/pproj_larapi.git
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+Após isso, é preciso rodar os seguintes comandos para instalação de dependências PHP e Javascript:
+> php artisan install
+> npm install
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+Após executar os comandos acima, é preciso fazer algumas configurações opcionais e outras essenciais no arquivo de configuração da aplicação, veja a tabela abaixo:
+| ENV NAME | DESCRIPTION | TYPE |
+| --- | --- | --- |
+| `APP_NAME` | Nome da aplicação | Optional |
+| `DB_*` | Acesso ao banco de dados | Obrigatório |
+| `MAIL_*` | Dados SMTP para envio de e-mail | Obrigatório |
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+Para facilitar o uso inicial da aplicação, um comando artisan foi criado para isso, veja abaixo mais detalhes.
 
-## Learning Laravel
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+Finally, run command and follow instructions:
+> php artisan app:install
 
-You may also try the [Laravel Bootcamp](https://bootcamp.laravel.com), where you will be guided through building a modern Laravel application from scratch.
+O comando acima irá rodar automaticamente os seguintes comandos do Laravel:
+    - `php artisan key:generate`: Este comando irá gerar a chave privada da aplicação Laravel;
+    - `php artisan storage:link`: Este comando irá criar um link simbólico para acesso storage da aplicação;
+    - `php artisan migrate`: Este comando irá gerar o banco de dados e as tabelas;
+    - `php artisan db:seed` Este comando irá preencher o banco de dados com dados fakes para testes;
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains thousands of video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
-
-## Laravel Sponsors
-
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the [Laravel Partners program](https://partners.laravel.com).
-
-### Premium Partners
-
-- **[Vehikl](https://vehikl.com)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel)**
-- **[DevSquad](https://devsquad.com/hire-laravel-developers)**
-- **[Redberry](https://redberry.international/laravel-development)**
-- **[Active Logic](https://activelogic.com)**
-
-## Contributing
-
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
-
-## Code of Conduct
-
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
-
-## Security Vulnerabilities
-
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
-
-## License
-
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+Além de executar os comandos acima, o banco de dados será preenchido com 2 usuários principais: um super usuário e um administrador; além de criar 2 cargos básicos da aplicação: *super_user* e *admin_user*.

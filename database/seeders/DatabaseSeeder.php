@@ -14,38 +14,6 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        (new RoleAndPermissionSeeder)->run();
-
-        User::factory(100)->create();
-
-        // Create super user
-        $super = User::factory()->create([
-            'first_name' => 'Super',
-            'last_name' => 'User',
-            'username' => 'Super User',
-            'gender' => 'male',
-            'email' => 'super@mail.com',
-        ]);
-
-        // Create admin user
-        $admin = User::factory()->create([
-            'first_name' => 'Admin',
-            'last_name' => 'User',
-            'username' => 'Admin User',
-            'gender' => 'male',
-            'email' => 'admin@mail.com',
-        ]);
-
-        // Create customer user
-        User::factory()->create([
-            'first_name' => 'Customer',
-            'last_name' => 'User',
-            'username' => 'Customer User',
-            'gender' => 'male',
-            'email' => 'customer@mail.com',
-        ]);
-
-        $super->assignRole(RolesEnum::SUPERUSER->value);
-        $admin->assignRole(RolesEnum::ADMINUSER->value);
+        //
     }
 }

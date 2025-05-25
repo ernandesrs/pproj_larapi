@@ -36,17 +36,17 @@ Route::group([
             Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])
                 ->name('auth.resendVerification');
         });
-    });
 
-    Route::group([
-        'prefix' => 'password'
-    ], function () {
+        Route::group([
+            'prefix' => 'password'
+        ], function () {
 
-        Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])
-            ->name('password.forget')->middleware(['throttle:5,1']);
-        Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
-            ->name('password.update');
+            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])
+                ->name('password.forget')->middleware(['throttle:5,1']);
+            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
+                ->name('password.update');
 
+        });
     });
 
     Route::group([

@@ -3,6 +3,7 @@
 namespace App\Services;
 
 use App\Interfaces\ServiceInterface;
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 
@@ -92,6 +93,34 @@ class UserService implements ServiceInterface
         return $user->update([
             'password' => \Hash::make($validated['password'])
         ]);
+    }
+
+    /**
+     * Promote
+     * @param \App\Models\User $user
+     * @param \App\Models\Role $role
+     * @return bool
+     */
+    public static function promote(User $user, Role $role): bool
+    {
+        if (!$user->hasRole($role)) {
+            $user->assignRole($role);
+        }
+        return true;
+    }
+
+    /**
+     * Demote
+     * @param \App\Models\User $user
+     * @param \App\Models\Role $role
+     * @return bool
+     */
+    public static function demote(User $user, Role $role): bool
+    {
+        if ($user->hasRole($role)) {
+            $user->removeRole($role);
+        }
+        return true;
     }
 
     /**

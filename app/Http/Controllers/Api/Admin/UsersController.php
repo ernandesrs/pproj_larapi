@@ -93,11 +93,7 @@ class UsersController extends Controller
     public function promote(User $user, Role $role): JsonResponse
     {
         \Gate::authorize('promote', $user);
-
-        if (!$user->hasRole($role->name)) {
-            $user->assignRole($role->name);
-        }
-
+        UserService::promote($user, $role);
         return ApiResponse::success();
     }
 
@@ -110,11 +106,7 @@ class UsersController extends Controller
     public function demote(User $user, Role $role): JsonResponse
     {
         \Gate::authorize('demote', $user);
-
-        if ($user->hasRole($role->name)) {
-            $user->removeRole($role->name);
-        }
-
+        UserService::demote($user, $role);
         return ApiResponse::success();
     }
 }

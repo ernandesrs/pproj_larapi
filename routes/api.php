@@ -36,13 +36,12 @@ Route::group([
         });
 
         Route::group([
-            'prefix' => 'password'
+            'prefix' => 'password',
+            'middleware' => ['captcha']
         ], function () {
 
-            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])->middleware(['throttle:5,1'])
-                ->middleware(['captcha']);
-            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
-                ->middleware(['captcha']);
+            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])->middleware(['throttle:5,1']);
+            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate']);
 
         });
     });

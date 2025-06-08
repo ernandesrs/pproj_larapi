@@ -28,6 +28,8 @@ return Application::configure(basePath: dirname(__DIR__))
                     \Symfony\Component\HttpKernel\Exception\HttpException::class => \App\Exceptions\Api\UnauthorizedException::class,
                     \Symfony\Component\HttpKernel\Exception\AccessDeniedHttpException::class => \App\Exceptions\Api\ForbiddenException::class,
 
+                    \Illuminate\Http\Exceptions\ThrottleRequestsException::class => \App\Exceptions\Api\ManyAttemptsException::class,
+
                     default => null
                 };
 
@@ -39,6 +41,7 @@ return Application::configure(basePath: dirname(__DIR__))
                 \App\Exceptions\Api\NotFoundException::class,
                 \App\Exceptions\Api\UnauthorizedException::class,
                 \App\Exceptions\Api\ForbiddenException::class,
+                \App\Exceptions\Api\ManyAttemptsException::class
             ]);
         }
     })->create();

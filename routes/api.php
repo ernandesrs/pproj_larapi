@@ -23,7 +23,8 @@ Route::group([
             'middleware' => ['guest:sanctum', 'captcha']
         ], function () {
             Route::post('/register', [RegisterController::class, 'store']);
-            Route::post('/login', [LoginController::class, 'login']);
+            Route::post('/login', [LoginController::class, 'login'])
+                ->middleware(['throttle:3,1']);
         });
 
         Route::group([

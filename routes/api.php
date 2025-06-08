@@ -20,7 +20,7 @@ Route::group([
     ], function () {
 
         Route::group([
-            'middleware' => 'guest:sanctum'
+            'middleware' => ['guest:sanctum', 'captcha']
         ], function () {
             Route::post('/register', [RegisterController::class, 'store']);
             Route::post('/login', [LoginController::class, 'login']);
@@ -30,15 +30,18 @@ Route::group([
             'middleware' => 'auth:sanctum'
         ], function () {
             Route::post('/register-verify', [RegisterController::class, 'registerVerify']);
-            Route::post('/resend-verification', [RegisterController::class, 'resendVerification']);
+            Route::post('/resend-verification', [RegisterController::class, 'resendVerification'])
+                ->middleware(['captcha']);
         });
 
         Route::group([
             'prefix' => 'password'
         ], function () {
 
-            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])->middleware(['throttle:5,1']);
-            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate']);
+            Route::post('/forget', [ForgetedPasswordController::class, 'passwordForget'])->middleware(['throttle:5,1'])
+                ->middleware(['captcha']);
+            Route::post('/update', [ForgetedPasswordController::class, 'passwordUpdate'])
+                ->middleware(['captcha']);
 
         });
     });

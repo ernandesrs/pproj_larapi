@@ -1988,39 +1988,11 @@
                 </div>
             </div>
         </main>
-
-        <div class="p-5 border-2 border-dashed border-zinc-500 rounded-xl mt-5">
-            <h1 class="text-center text-zinc-500 mb-3 cursor-default">Captcha Example</h1>
-            <div class="flex justify-center">
-                <button id="button_reveal_captcha"
-                    class="bg-zinc-700 text-zinc-100 mb-3 rounded-lg px-6 py-2.5 cursor-pointer">
-                    SHOW CAPTCHA RESPONSE
-                </button>
-            </div>
-            <div class="g-recaptcha" data-sitekey="{{ env('GOOGLE_CAPTCHA_SITE_KEY') }}"></div>
-        </div>
     </div>
 
     @if (Route::has('login'))
         <div class="h-14.5 hidden lg:block"></div>
     @endif
-
-    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const button = document.querySelector('#button_reveal_captcha');
-
-            if (!button) return;
-
-            button.addEventListener('click', () => {
-                const el = document.querySelector('#g-recaptcha-response');
-
-                if (!el) return;
-
-                el.style = "display:block;";
-            });
-        })
-    </script>
 
 </body>
 

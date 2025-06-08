@@ -13,7 +13,8 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
-            'admin_access' => \App\Http\Middleware\AdminAccess::class
+            'admin_access' => \App\Http\Middleware\AdminAccess::class,
+            'captcha' => \App\Http\Middleware\CaptchaMiddleware::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {

@@ -34,7 +34,9 @@ class UserService implements ServiceInterface
      */
     public static function update(Model $model, array $validated): bool
     {
-        if (isset($validated["password"])) {
+        if (empty(isset($validated["password"]))) {
+            unset($validated['password']);
+        } else {
             $validated["password"] = \Hash::make($validated["password"]);
         }
 

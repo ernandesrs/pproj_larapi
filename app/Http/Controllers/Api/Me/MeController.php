@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Api\Me;
 
 use App\Helpers\ApiResponse;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\UserUpdateRequest;
 use App\Models\Permission;
 use App\Models\Role;
+use App\Services\UserService;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
@@ -20,6 +22,18 @@ class MeController extends Controller
         return ApiResponse::success([
             'me' => \Auth::user()
         ]);
+    }
+
+    /**
+     * Me update
+     * @param \App\Http\Requests\UserUpdateRequest $userUpdateRequest
+     * @return JsonResponse
+     */
+    public function update(UserUpdateRequest $userUpdateRequest): JsonResponse
+    {
+        return UserService::update(\Auth::user(), $userUpdateRequest->validated()) ?
+            ApiResponse::success() :
+            ApiResponse::response([], 500);
     }
 
     /**

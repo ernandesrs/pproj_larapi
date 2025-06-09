@@ -33,7 +33,7 @@ class MeController extends Controller
     {
         return UserService::update(\Auth::user(), $userUpdateRequest->validated()) ?
             ApiResponse::success() :
-            ApiResponse::response([], 500);
+            ApiResponse::internalError();
     }
 
     /**

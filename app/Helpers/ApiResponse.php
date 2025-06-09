@@ -49,4 +49,14 @@ class ApiResponse
     {
         return static::response($data, 422);
     }
+
+    /**
+     * Internal Error
+     * @param array $data
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public static function internalError(array $data = []): JsonResponse
+    {
+        return static::response($data, 500);
+    }
 }

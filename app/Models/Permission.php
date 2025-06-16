@@ -14,7 +14,7 @@ class Permission extends \Spatie\Permission\Models\Permission
     private static function mapPermissionsClasses(?ApplicationLayers $layer = null)
     {
         $layerAsNamespacePartial = $layer ? \Str::ucfirst($layer->value) : null;
-        $directory = app_path('Enums\Permissions' . ($layerAsNamespacePartial ? '\\' . $layerAsNamespacePartial : ''));
+        $directory = app_path('Enums/Permissions' . ($layerAsNamespacePartial ? '/' . $layerAsNamespacePartial : ''));
         $namespace = 'App\Enums\Permissions';
         $enums = [];
 
